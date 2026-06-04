@@ -3,45 +3,46 @@ import { slot4BrandConfig } from '@/editable/theme/brand.config'
 export const globalContent = {
   site: {
     name: slot4BrandConfig.siteName,
-    tagline: slot4BrandConfig.tagline || 'Independent reading platform',
+    tagline: slot4BrandConfig.tagline || '',
     domain: slot4BrandConfig.domain,
     baseUrl: slot4BrandConfig.baseUrl,
   },
   nav: {
-    tagline: 'Independent reading platform',
+    tagline: '',
     primaryLinks: [
-      { label: 'Articles', href: '/articles' },
-      { label: 'Visuals', href: '/image-sharing' },
-      { label: 'Listings', href: '/listings' },
+      { label: 'About', href: '/about' },
+      { label: 'Bookmarks', href: '/sbm' },
+      { label: 'Search', href: '/search' },
       { label: 'Contact', href: '/contact' },
     ],
     actions: {
-      primary: { label: 'Start exploring', href: '/' },
-      secondary: { label: 'Submit', href: '/contact' },
+      primary: { label: 'Start exploring', href: '/sbm' },
+      secondary: { label: 'Contact desk', href: '/contact' },
     },
   },
   footer: {
-    tagline: 'Stories, resources, and discoverable posts',
-    description: 'A connected publishing surface for articles, visuals, listings, profiles, bookmarks, and downloadable resources.',
+    tagline: 'Premium social bookmarking',
+    description:
+      'A polished discovery surface for saved resources, related archives, supporting visuals, and useful public links.',
     columns: [
       {
         title: 'Explore',
         links: [
-          { label: 'Articles', href: '/articles' },
-          { label: 'Listings', href: '/listings' },
-          { label: 'Images', href: '/image-sharing' },
-          { label: 'PDF Library', href: '/pdf' },
+          { label: 'Bookmarks', href: '/sbm' },
+          { label: 'Search', href: '/search' },
+          { label: 'About', href: '/about' },
+          { label: 'Contact', href: '/contact' },
         ],
       },
       {
         title: 'Site',
         links: [
-          { label: 'About', href: '/about' },
-          { label: 'Contact', href: '/contact' },
+          { label: 'Comments', href: '/comments' },
+          { label: 'Create', href: '/create' },
         ],
       },
     ],
-    bottomNote: 'Built for clean discovery and connected publishing.',
+    bottomNote: 'Designed for graceful discovery and repeat visits.',
   },
   commonLabels: {
     readMore: 'Read more',

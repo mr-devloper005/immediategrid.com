@@ -13,30 +13,30 @@ export const visualPresets = {
   'editorial-paper': {
     label: 'Editorial Paper',
     mood: 'calm magazine authority',
-    fontDirection: 'serif headlines with quiet sans body',
+    fontDirection: 'serif headlines with polished sans support',
     colors: {
-      background: '#f7efe3',
-      foreground: '#201711',
-      muted: '#7b6253',
-      primary: '#261811',
-      accent: '#b76e45',
-      surface: '#fffaf2',
+      background: '#eef3fb',
+      foreground: '#18324a',
+      muted: '#6a7c8d',
+      primary: '#18324a',
+      accent: '#ce2626',
+      surface: '#ffffff',
     },
-    shape: 'soft editorial cards with fine borders',
+    shape: 'soft luxury cards with airy spacing',
   },
   'luxury-atelier': {
     label: 'Luxury Atelier',
     mood: 'premium, restrained, polished',
     fontDirection: 'high-contrast display headings with spacious tracking',
     colors: {
-      background: '#0f1110',
-      foreground: '#f6ead8',
-      muted: '#b8aa94',
-      primary: '#d7b56d',
-      accent: '#7f1d1d',
-      surface: '#181a17',
+      background: '#102b43',
+      foreground: '#fffdeb',
+      muted: '#d6d0bb',
+      primary: '#e8dbb3',
+      accent: '#ce2626',
+      surface: '#16324b',
     },
-    shape: 'large dark panels, gold hairlines, generous negative space',
+    shape: 'dark panels, warm highlights, elegant spacing',
   },
   'brutalist-index': {
     label: 'Brutalist Index',
@@ -47,7 +47,7 @@ export const visualPresets = {
       foreground: '#111111',
       muted: '#55524a',
       primary: '#111111',
-      accent: '#ff4d00',
+      accent: '#ce2626',
       surface: '#ffffff',
     },
     shape: 'sharp edges, thick borders, offset blocks',
@@ -55,14 +55,14 @@ export const visualPresets = {
   'organic-journal': {
     label: 'Organic Journal',
     mood: 'warm, natural, trustworthy',
-    fontDirection: 'rounded serif or humanist sans with soft captions',
+    fontDirection: 'serif-led with gentle supporting sans',
     colors: {
-      background: '#f4efe5',
+      background: '#fffdeb',
       foreground: '#263021',
       muted: '#68705a',
       primary: '#415b32',
-      accent: '#c47c51',
-      surface: '#fffaf0',
+      accent: '#7daacb',
+      surface: '#ffffff',
     },
     shape: 'rounded cards, natural spacing, calm texture',
   },
@@ -75,7 +75,7 @@ export const visualPresets = {
       foreground: '#101827',
       muted: '#5f6b7a',
       primary: '#0f172a',
-      accent: '#00a6ff',
+      accent: '#7daacb',
       surface: '#ffffff',
     },
     shape: 'clean grids, pill filters, sharp information hierarchy',
@@ -89,7 +89,7 @@ export const visualPresets = {
       foreground: '#2b1d12',
       muted: '#7b5736',
       primary: '#2b1d12',
-      accent: '#e85d2a',
+      accent: '#ce2626',
       surface: '#fff8da',
     },
     shape: 'stickers, tabs, framed modules, playful dividers',
@@ -99,12 +99,12 @@ export const visualPresets = {
     mood: 'cinematic, image-led, immersive',
     fontDirection: 'minimal sans with oversized display moments',
     colors: {
-      background: '#07101f',
+      background: '#102b43',
       foreground: '#f8fbff',
-      muted: '#a9b6c8',
-      primary: '#8df0c8',
-      accent: '#f2a0ff',
-      surface: '#101b2d',
+      muted: '#b8c5d6',
+      primary: '#e8dbb3',
+      accent: '#7daacb',
+      surface: '#16324b',
     },
     shape: 'dark cards, large media, glass overlays',
   },
@@ -112,14 +112,7 @@ export const visualPresets = {
 
 export const visualSystem = {
   productKind: slot4BrandConfig.productKind,
-  recommendedPreset:
-    slot4BrandConfig.productKind === 'visual'
-      ? 'visual-gallery'
-      : slot4BrandConfig.productKind === 'editorial'
-        ? 'editorial-paper'
-        : slot4BrandConfig.productKind === 'directory'
-          ? 'tech-directory'
-          : 'organic-journal',
+  recommendedPreset: 'editorial-paper',
   radius: {
     sm: '0.75rem',
     md: '1.25rem',
