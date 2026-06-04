@@ -6,39 +6,190 @@
   - Global text color
   - Selection color
   - Scrollbar feel
-  - Article body typography accents
-
-  Do not add data fetching, scripts, or route logic here.
+  - Shared luxury-classic utility classes
 */
+
+html {
+  scroll-behavior: smooth;
+}
 
 body {
   background-color: var(--slot4-page-bg) !important;
   color: var(--slot4-page-text) !important;
   background-image: var(--slot4-body-gradient) !important;
+  font-family: var(--slot4-font-body), sans-serif !important;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--slot4-font-display), serif;
 }
 
 ::selection {
-  background: color-mix(in oklab, var(--slot4-accent-fill) 22%, transparent);
+  background: color-mix(in oklab, var(--slot4-accent-fill) 26%, white);
   color: var(--slot4-page-text);
 }
 
+::-webkit-scrollbar {
+  width: 11px;
+  height: 11px;
+}
+
 ::-webkit-scrollbar-track {
-  background: color-mix(in oklab, var(--slot4-page-bg) 88%, white);
+  background: color-mix(in oklab, var(--slot4-page-bg) 90%, white);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: color-mix(in oklab, var(--slot4-accent) 40%, transparent);
+  background: color-mix(in oklab, var(--slot4-accent-fill) 48%, transparent);
+  border: 2px solid color-mix(in oklab, var(--slot4-page-bg) 88%, white);
   border-radius: 999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: color-mix(in oklab, var(--slot4-accent) 62%, transparent);
+  background: color-mix(in oklab, var(--slot4-accent-fill) 68%, var(--slot4-accent));
 }
 
-.article-content h2 {
+.ig-shell-gradient {
+  background:
+    radial-gradient(circle at top left, rgba(232, 219, 179, 0.65), transparent 28%),
+    radial-gradient(circle at 85% 22%, rgba(125, 170, 203, 0.22), transparent 24%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.86) 0%, rgba(238, 243, 251, 0.92) 62%, rgba(255, 253, 235, 0.98) 100%);
+}
+
+.ig-panel {
+  border: 1px solid var(--slot4-border);
+  background: rgba(255, 255, 255, 0.76);
+  box-shadow: 0 20px 60px rgba(24, 50, 74, 0.08);
+  backdrop-filter: blur(18px);
+}
+
+.ig-grid-fade {
+  background-image:
+    linear-gradient(rgba(125, 170, 203, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(125, 170, 203, 0.08) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+
+.ig-wave-lines {
+  background-image:
+    radial-gradient(circle at center, transparent 58%, rgba(125, 170, 203, 0.22) 59%, transparent 61%),
+    radial-gradient(circle at center, transparent 67%, rgba(125, 170, 203, 0.14) 68%, transparent 70%),
+    radial-gradient(circle at center, transparent 77%, rgba(125, 170, 203, 0.1) 78%, transparent 80%);
+}
+
+.ig-section-kicker {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.85rem;
+  font-family: var(--slot4-font-body), sans-serif;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
   color: var(--slot4-accent);
 }
 
+.ig-section-kicker::before {
+  content: "";
+  width: 2rem;
+  height: 1px;
+  background: currentColor;
+}
+
+.ig-input,
+.ig-select,
+.ig-textarea {
+  width: 100%;
+  border: 1px solid var(--slot4-border);
+  background: rgba(255, 255, 255, 0.92);
+  color: var(--slot4-page-text);
+  border-radius: 1.15rem;
+  outline: none;
+  transition: border-color 180ms ease, transform 180ms ease, box-shadow 180ms ease;
+}
+
+.ig-input,
+.ig-select {
+  min-height: 3.2rem;
+  padding: 0.85rem 1rem;
+}
+
+.ig-textarea {
+  padding: 1rem;
+}
+
+.ig-input:focus,
+.ig-select:focus,
+.ig-textarea:focus {
+  border-color: rgba(125, 170, 203, 0.9);
+  box-shadow: 0 0 0 4px rgba(125, 170, 203, 0.14);
+}
+
+.ig-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  border-radius: 999px;
+  border: 1px solid var(--slot4-border);
+  background: rgba(255, 255, 255, 0.88);
+  padding: 0.55rem 1rem;
+  font-family: var(--slot4-font-body), sans-serif;
+  font-size: 0.74rem;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.ig-outline-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border-radius: 999px;
+  border: 1px solid var(--slot4-border);
+  background: rgba(255, 255, 255, 0.82);
+  padding: 0.9rem 1.5rem;
+  font-family: var(--slot4-font-body), sans-serif;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  transition: transform 180ms ease, box-shadow 180ms ease, background 180ms ease;
+}
+
+.ig-outline-button:hover {
+  transform: translateY(-2px);
+  background: white;
+  box-shadow: 0 18px 34px rgba(24, 50, 74, 0.12);
+}
+
+.article-content h2 {
+  margin-top: 2.4rem;
+  font-size: clamp(1.8rem, 3vw, 2.4rem);
+  line-height: 1.05;
+  color: var(--slot4-page-text);
+}
+
+.article-content p,
+.article-content li {
+  color: color-mix(in oklab, var(--slot4-page-text) 82%, white);
+}
+
 .article-content a {
-  color: var(--slot4-accent-fill);
+  color: var(--slot4-accent);
+}
+
+.article-content p + p {
+  margin-top: 1.05rem;
+}
+
+.article-content ul,
+.article-content ol {
+  margin-top: 1rem;
+  padding-left: 1.4rem;
 }

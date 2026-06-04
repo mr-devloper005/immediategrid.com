@@ -7,17 +7,16 @@ const productKind = getProductKind(recipe)
 
 export const slot4BrandConfig = {
   siteName: siteIdentity.name,
-  tagline: siteIdentity.tagline,
+  tagline: siteIdentity.tagline || 'Curated bookmark discovery',
   domain: siteIdentity.domain,
   baseUrl: siteIdentity.url,
   productKind,
   ogImage: siteIdentity.ogImage,
-  accents:
-    productKind === 'visual'
-      ? { primary: '#8df0c8', surface: '#07101f' }
-      : productKind === 'editorial'
-        ? { primary: '#241711', surface: '#fbf6ee' }
-        : productKind === 'directory'
-          ? { primary: '#0f172a', surface: '#f8fbff' }
-          : { primary: '#5b2b3b', surface: '#f7f1ea' },
+  accents: {
+    primary: '#7daacb',
+    surface: '#fffdeb',
+    warm: '#e8dbb3',
+    signal: '#ce2626',
+    ink: '#18324a',
+  },
 } as const
