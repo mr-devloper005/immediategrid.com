@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import type { CSSProperties } from 'react'
 import { notFound } from 'next/navigation'
-import { ArrowLeft, Bookmark, Building2, Camera, CheckCircle2, Download, ExternalLink, FileText, Globe2, Mail, MapPin, MessageCircle, Phone, Tag, UserRound } from 'lucide-react'
+import { ArrowLeft, ArrowUpRight, Bookmark, Building2, Camera, CheckCircle2, Download, ExternalLink, FileText, Globe2, Mail, MapPin, MessageCircle, Phone, Tag, UserRound } from 'lucide-react'
 import { buildPostMetadata, buildTaskMetadata } from '@/lib/seo'
 import { buildPostUrl, fetchArticleComments, fetchTaskPostBySlug, fetchTaskPosts } from '@/lib/task-data'
 import { getTaskConfig, SITE_CONFIG, type TaskKey } from '@/lib/site-config'
@@ -86,14 +86,15 @@ const sanitizeHtml = (html: string) => hardenLinks(html
 const formatPlainText = (raw: string) => {
   const value = raw.trim()
   if (!value) return ''
-  if (/<[a-z][\s\S]*>/i.test(value)) return sanitizeHtml(linkifyMarkdown(value))
+  if (/<[a-z][\s\S]*>/i.test(value)) return sanitizeHtml(value)
   return value
     .split(/\n{2,}/)
     .map((part) => `<p>${linkifyText(escapeHtml(part).replace(/\n/g, '<br />'))}</p>`)
     .join('')
 }
 
-const summaryText = (post: SitePost) => post.summary || asText(getContent(post).description) || asText(getContent(post).excerpt) || ''
+const stripHtml = (value: string) => value.replace(/<[^>]*>/g, '').replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/&#39;/g, "'").trim()
+const summaryText = (post: SitePost) => stripHtml(post.summary || asText(getContent(post).description) || asText(getContent(post).excerpt) || '')
 const categoryOf = (post: SitePost, fallback: string) => asText(getContent(post).category) || post.tags?.[0] || fallback
 const mapSrcFor = (post: SitePost) => {
   const address = getField(post, ['address', 'location', 'city'])
@@ -248,17 +249,114 @@ function ImageDetail({ post, related }: { post: SitePost; related: SitePost[] })
 
 function BookmarkDetail({ post, related }: { post: SitePost; related: SitePost[] }) {
   const website = getField(post, ['website', 'url', 'link'])
+  const domainLabel = website ? website.replace(/^https?:\/\//, '').replace(/\/.*$/, '') : ''
+  const category = categoryOf(post, 'Collection')
+  const tags = Array.isArray(post.tags) ? post.tags.filter((tag): tag is string => typeof tag === 'string' && Boolean(tag.trim())).slice(0, 6) : []
+  const taskConfig = getTaskConfig('sbm')
+
   return (
-    <section className="mx-auto grid max-w-[var(--editable-container)] gap-8 px-4 py-10 sm:px-6 lg:grid-cols-[minmax(0,1fr)_360px] lg:px-8 lg:py-16">
-      <article className="rounded-[2.7rem] border border-[var(--editable-border)] bg-white p-7 shadow-[0_30px_90px_rgba(15,23,42,0.08)] sm:p-10">
+    <>
+      <section className="mx-auto max-w-[var(--editable-container)] px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
         <BackLink task="sbm" />
-        <div className="mt-10 flex h-20 w-20 items-center justify-center rounded-[2rem] bg-[var(--detail-text)] text-[var(--detail-bg)]"><Bookmark className="h-9 w-9" /></div>
-        <h1 className="mt-7 text-4xl font-black leading-[0.98] tracking-[-0.07em] sm:text-6xl">{post.title}</h1>
-        {website ? <Link href={website} target="_blank" rel="noreferrer" className="mt-8 inline-flex items-center gap-2 rounded-full bg-[var(--detail-text)] px-5 py-3 text-sm font-black text-[var(--detail-bg)]">Open saved resource <ExternalLink className="h-4 w-4" /></Link> : null}
-        <BodyContent post={post} />
-      </article>
-      <RelatedPanel task="sbm" post={post} related={related} />
-    </section>
+
+        <div className="mt-8 grid gap-8 lg:grid-cols-[minmax(0,1fr)_340px]">
+          <article className="min-w-0 overflow-hidden">
+            <p className="text-[11px] font-black uppercase tracking-[0.28em] text-[var(--detail-accent)]">
+              {taskConfig?.label || 'Collections'} &bull; Saved resource
+            </p>
+            <h1 className="mt-5 font-serif text-4xl font-bold leading-[1.05] tracking-[-0.02em] sm:text-5xl lg:text-[3.6rem]">{post.title}</h1>
+
+            {domainLabel ? (
+              <div className="mt-6 inline-flex items-center gap-2.5 rounded-full border border-[var(--editable-border)] bg-white px-4 py-2 text-sm">
+                <img src={`https://www.google.com/s2/favicons?domain=${domainLabel}&sz=32`} alt="" className="h-5 w-5 rounded-full" />
+                <span className="font-medium opacity-70">{domainLabel}</span>
+              </div>
+            ) : null}
+
+            <BodyContent post={post} />
+          </article>
+
+          <aside className="space-y-5 lg:mt-6">
+            <div className="rounded-2xl border border-[var(--editable-border)] bg-white p-6 shadow-sm">
+              <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-[var(--detail-accent)]/10 text-[var(--detail-accent)]">
+                <Bookmark className="h-6 w-6" />
+              </div>
+              <p className="mt-4 text-[11px] font-black uppercase tracking-[0.24em] opacity-55">Open this resource</p>
+              <p className="mt-2 text-sm leading-6 opacity-60">Open the original link(s) in a new tab.</p>
+              {website ? (
+                <Link href={website} target="_blank" rel="noreferrer" className="mt-5 flex w-full items-center justify-center gap-2 rounded-xl bg-[var(--detail-accent)] px-5 py-3 text-sm font-bold text-white transition hover:opacity-90">
+                  Open resource <ExternalLink className="h-4 w-4" />
+                </Link>
+              ) : null}
+            </div>
+
+            <div className="rounded-2xl border border-[var(--editable-border)] bg-white p-6 shadow-sm">
+              <p className="text-[11px] font-black uppercase tracking-[0.24em] opacity-55">Details</p>
+              <div className="mt-4 space-y-0 divide-y divide-[var(--editable-border)]">
+                <div className="flex items-center justify-between gap-4 py-3">
+                  <span className="text-sm opacity-60">Collection</span>
+                  <span className="text-sm font-bold">{category}</span>
+                </div>
+                {tags.length ? (
+                  <div className="py-3">
+                    <span className="text-sm opacity-60">Tags</span>
+                    <div className="mt-2 flex flex-wrap gap-2">
+                      {tags.map((tag) => (
+                        <span key={tag} className="rounded-full border border-[var(--editable-border)] bg-[var(--detail-bg)] px-3 py-1 text-xs font-semibold">#{tag}</span>
+                      ))}
+                    </div>
+                  </div>
+                ) : null}
+              </div>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      {related.length ? (
+        <section className="border-t border-[var(--editable-border)] bg-[var(--detail-bg)]">
+          <div className="mx-auto max-w-[var(--editable-container)] px-4 py-12 sm:px-6 lg:px-8 lg:py-16">
+            <div className="flex items-center justify-between gap-4">
+              <h2 className="text-2xl font-black tracking-[-0.04em]">More {taskConfig?.label?.toLowerCase() || 'resources'}</h2>
+              <Link href={taskConfig?.route || '/'} className="inline-flex items-center gap-1 text-sm font-bold text-[var(--detail-accent)] transition hover:opacity-70">
+                View all <ArrowUpRight className="h-4 w-4" />
+              </Link>
+            </div>
+            <div className="mt-8 grid gap-5 sm:grid-cols-2 xl:grid-cols-4">
+              {related.map((item) => (
+                <SbmRelatedCard key={item.id || item.slug} post={item} />
+              ))}
+            </div>
+          </div>
+        </section>
+      ) : null}
+    </>
+  )
+}
+
+function SbmRelatedCard({ post }: { post: SitePost }) {
+  const website = getField(post, ['website', 'url', 'link'])
+  const category = categoryOf(post, 'Resource')
+  return (
+    <div className="flex flex-col rounded-2xl border border-[var(--editable-border)] bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md">
+      <div className="inline-flex items-center gap-2">
+        <span className="flex h-7 w-7 items-center justify-center rounded-full bg-[var(--detail-accent)]/10 text-[var(--detail-accent)]"><Bookmark className="h-3.5 w-3.5" /></span>
+        <span className="text-xs font-bold opacity-55">{category}</span>
+      </div>
+      <Link href={buildPostUrl('sbm', post.slug)} className="mt-3">
+        <h3 className="line-clamp-2 text-base font-black leading-snug tracking-[-0.02em] transition hover:text-[var(--detail-accent)]">{post.title}</h3>
+      </Link>
+      <p className="mt-2 line-clamp-2 text-sm leading-6 opacity-50">{summaryText(post)}</p>
+      {website ? (
+        <Link href={website} target="_blank" rel="noreferrer" className="mt-auto inline-flex items-center gap-1.5 pt-4 text-sm font-bold text-[var(--detail-accent)] transition hover:opacity-70">
+          Open resource <ArrowUpRight className="h-3.5 w-3.5" />
+        </Link>
+      ) : (
+        <Link href={buildPostUrl('sbm', post.slug)} className="mt-auto inline-flex items-center gap-1.5 pt-4 text-sm font-bold text-[var(--detail-accent)] transition hover:opacity-70">
+          Open resource <ArrowUpRight className="h-3.5 w-3.5" />
+        </Link>
+      )}
+    </div>
   )
 }
 
@@ -317,7 +415,7 @@ function ProfileDetail({ post, related }: { post: SitePost; related: SitePost[] 
 }
 
 function BodyContent({ post, compact = false }: { post: SitePost; compact?: boolean }) {
-  return <div className={`article-content mt-8 max-w-none ${compact ? 'text-base leading-8' : 'text-lg leading-9'} opacity-80`} dangerouslySetInnerHTML={{ __html: formatPlainText(getBody(post)) }} />
+  return <div className={`article-content mt-8 max-w-none break-words ${compact ? 'text-base leading-8' : 'text-lg leading-9'} opacity-80`} style={{ overflowWrap: 'anywhere' }} dangerouslySetInnerHTML={{ __html: formatPlainText(getBody(post)) }} />
 }
 
 function InfoGrid({ items }: { items: Array<[string, string, typeof MapPin]> }) {
