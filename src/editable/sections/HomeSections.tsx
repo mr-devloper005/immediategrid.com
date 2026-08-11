@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { ArrowRight, Bookmark, Compass, ExternalLink, Layers3, Search, ShieldCheck, Sparkles, Star, Zap } from 'lucide-react'
+import { ArrowRight, Bookmark, Compass, Layers3, Search, ShieldCheck, Sparkles, Star, Zap } from 'lucide-react'
 import type { SitePost } from '@/lib/site-connector'
 import type { HomeTimeSection } from '@/lib/task-data'
 import type { TaskKey } from '@/lib/site-config'
@@ -12,10 +12,7 @@ import {
   CompactIndexCard,
   EditorialFeatureCard,
   RailPostCard,
-  getEditableCategory,
-  getEditableExcerpt,
   getEditablePostImage,
-  getEditableWebsite,
   postHref,
 } from '@/editable/cards/PostCards'
 
